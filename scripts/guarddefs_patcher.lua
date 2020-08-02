@@ -15,6 +15,7 @@ end
 -- General changes applicable to all patchable drones.
 
 local function armDrone( droneDef )
+	droneDef.abilities._OVERRIDE = nil  -- DEBUG views fail with mixed key and array indices
 	table.insert( droneDef.abilities, "qed_explosivedrone" )
 	droneDef.brain = "qedMissileBrain"
 	droneDef.traits.pacifist = nil
