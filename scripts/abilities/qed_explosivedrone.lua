@@ -61,6 +61,7 @@ local qed_explosivedrone = util.extend( DEFAULT_BUFF )
 {
 	name = STRINGS.QED_REARMEDDRONES.ABILITIES.EXPLOSIVEDRONE,
 	buffDesc = STRINGS.QED_REARMEDDRONES.ABILITIES.EXPLOSIVEDRONE_DESC,
+	ghostable = true,  -- Show on fog of war ghosts
 
 	onSpawnAbility = function( self, sim, unit )
 		sim:addTrigger( simdefs.TRG_UNIT_WARP, self, unit )
