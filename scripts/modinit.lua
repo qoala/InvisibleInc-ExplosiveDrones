@@ -9,6 +9,7 @@ end
 local function init( modApi )
 	local scriptPath = modApi:getScriptPath()
 
+	include( scriptPath .. "/engine" )
 	include( scriptPath .. "/btree/situations/combat" )
 	include( scriptPath .. "/btree/actions" )
 	include( scriptPath .. "/btree/qed_missilebrain" )

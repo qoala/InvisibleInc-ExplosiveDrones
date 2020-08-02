@@ -51,11 +51,17 @@ function _M.disarmNullDrones()
 end
 
 function _M.armPulseDrones()
-	armDrone( guarddefs.pulse_drone )
+	if guarddefs.pulse_drone then
+		armDrone( guarddefs.pulse_drone )
+		guarddefs.pulse_drone.traits.pulseScanMissile = true
+	end
 end
 
 function _M.disarmPulseDrones()
-	disarmDrone( guarddefs.pulse_drone )
+	if guarddefs.pulse_drone then
+		disarmDrone( guarddefs.pulse_drone )
+		guarddefs.pulse_drone.traits.pulseScanMissile = false
+	end
 end
 
 return _M
