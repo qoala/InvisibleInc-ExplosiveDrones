@@ -2,6 +2,7 @@
 -- Non-dynamic-impass drones that behave like missiles and try to move into their targets.
 
 local Brain = include("sim/btree/brain")                                                                                                                                    local btree = include("sim/btree/btree")
+local Senses = include("sim/btree/senses")                                                                                                                                    local btree = include("sim/btree/btree")
 local actions = include("sim/btree/actions")
 local conditions = include("sim/btree/conditions")
 local simfactory = include( "sim/simfactory" )
@@ -13,14 +14,19 @@ local CommonBrain = include( "sim/btree/commonbrain" )
 
 require("class")
 
+-- Combat rule for missiles
 local MissileCombat = function()
 	return btree.Sequence("Combat",
 	{
 		btree.Condition(conditions.HasTarget),
-		btree.Action(actions.ReactToTarget),
+		btree.Action(actions.ReactToMissileTarget),
 		actions.MoveToTarget(),
 	})
 end
+
+-- ------------
+-- MissileBrain
+-- ------------
 
 local MissileBrain = class(Brain, function(self)
 	Brain.init(self, "qedMissileBrain",
@@ -32,6 +38,37 @@ local MissileBrain = class(Brain, function(self)
 		})
 	)
 end)
+
+local function missileProcessWarpTrigger(self, sim, evData)
+	Senses.processWarpTrigger(self, sim, evData)
+
+	if (self:getCurrentTarget() == evData.unit and self.unit and sim:canUnitSeeUnit( self.unit, evData.unit )) then
+		-- We've already turned for tracking the target. Now update the missile's destination.
+		local targetX,targetY = evData.unit:getLocation()
+		local destination = self.unit:getBrain():getDestination()
+		if targetX ~= destination.x or targetY ~= destination.y then
+			self.unit:getBrain():setDestination(evData.unit)
+			self.unit:getBrain():reset()
+			log:write( "DEBUG: updated destination" )
+		end
+	end
+end
+
+function MissileBrain:onSpawned(sim, unit)
+	Brain.onSpawned(self, sim, unit)
+
+	self.senses.processWarpTrigger = missileProcessWarpTrigger
+end
+
+function MissileBrain:setDestination(dest)
+	Brain.setDestination(self, dest)
+
+	-- clear destination.unit, as it's only necessary for the pather call in setDestination
+	-- and otherwise suppresses path display in pathrig.
+	if self.destination and self.destination.unit then
+		self.destination.unit = nil
+	end
+end
 
 local function createBrain()
 	return MissileBrain()
