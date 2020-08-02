@@ -1,4 +1,4 @@
-# Rearmed Drones
+# Explosive Drones
 ### A mod for "Invisible Inc." by KLEI Entertainment
 
 Attaches contact-trigger explosives to unarmed drones. When an active agent and rearmed drone are on
