@@ -9,6 +9,8 @@ end
 local function init( modApi )
 	local scriptPath = modApi:getScriptPath()
 
+	include( scriptPath .. "/btree/qed_missilebrain" )
+
 	modApi:addAbilityDef( "qed_explosivedrone", scriptPath .. "/abilities/qed_explosivedrone" )
 end
 

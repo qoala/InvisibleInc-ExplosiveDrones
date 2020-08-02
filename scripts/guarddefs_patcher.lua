@@ -16,11 +16,13 @@ end
 
 local function armDrone( droneDef )
 	table.insert( droneDef.abilities, "qed_explosivedrone" )
+	droneDef.brain = "qedMissileBrain"
 	droneDef.traits.pacifist = nil
 end
 
 local function disarmDrone( droneDef )
 	removeIfPresent( droneDef.abilities, "qed_explosivedrone" )
+	droneDef.brain = "PacifistBrain"
 	droneDef.traits.pacifist = true
 end
 
