@@ -35,6 +35,8 @@ local MissileBrain = class(Brain, function(self)
 		btree.Selector(
 		{
 			MissileCombat(),
+			-- Reset combat targetting overrides if we lose the target
+			btree.Not("FallThrough", btree.Always(btree.Action(actions.qed_ResetTargeting))),
 			CommonBrain.Investigate(),
 			CommonBrain.Patrol(),
 		})
