@@ -19,8 +19,10 @@ local MissileCombat = function()
 	return btree.Sequence("Combat",
 	{
 		btree.Condition(conditions.HasTarget),
-		btree.Action(actions.ReactToMissileTarget),
+		btree.Action(actions.qed_ReactToMissileTarget),
+		btree.Action(actions.qed_IgnoreOtherTargets),
 		actions.MoveToTarget(),
+		btree.Action(actions.qed_ResetTargeting),
 	})
 end
 
