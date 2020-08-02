@@ -42,19 +42,13 @@ local function doExplode( sim, userUnit, target )
 		damage = 1,
 		ko = false,
 	}
-	for _, cellUnit in ipairs( cell.units ) do
-		if cellUnit ~= userUnit and simquery.isAgent( cellUnit ) and cellUnit:getWounds() then
-			-- Copy damage table before target-specific modifications within hitUnit.
-			local localdmgt = util.tcopy( dmgt )
-			sim:hitUnit( userUnit, cellUnit, dmgt )
-		end
-	end
+	sim:hitUnit( userUnit, target, dmgt )
 	userUnit:killUnit(sim)
 
 	sim:startTrackerQueue( false )
 	sim:processDaemonQueue()
 
-  sim:processReactions()
+	sim:processReactions()
 end
 
 local qed_explosivedrone = util.extend( DEFAULT_BUFF )
