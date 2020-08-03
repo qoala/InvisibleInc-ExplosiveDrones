@@ -46,7 +46,7 @@ end)
 local function missileProcessWarpTrigger(self, sim, evData)
 	Senses.processWarpTrigger(self, sim, evData)
 
-	if (self:hasTarget(evData.unit) and self.unit and sim:canUnitSeeUnit( self.unit, evData.unit )) then
+	if (evData.unit and self:hasTarget(evData.unit) and self.unit and sim:canUnitSeeUnit( self.unit, evData.unit )) then
 		-- We've already turned for tracking the target. Now update our knowledge of the target's location.
 		local target = self.targets[evData.unit:getID()]
 		target.x,target.y = evData.unit:getLocation()
