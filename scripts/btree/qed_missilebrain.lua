@@ -46,11 +46,14 @@ end)
 local function missileProcessWarpTrigger(self, sim, evData)
 	Senses.processWarpTrigger(self, sim, evData)
 
-	if (self:getCurrentTarget() == evData.unit and self.unit and sim:canUnitSeeUnit( self.unit, evData.unit )) then
-		-- We've already turned for tracking the target. Now update the missile's destination.
-		local targetX,targetY = evData.unit:getLocation()
+	if (self:hasTarget(evData.unit) and self.unit and sim:canUnitSeeUnit( self.unit, evData.unit )) then
+		-- We've already turned for tracking the target. Now update our knowledge of the target's location.
+		local target = self.targets[evData.unit:getID()]
+		target.x,target.y = evData.unit:getLocation()
+
+		-- Update pathing for our primary target
 		local destination = self.unit:getBrain():getDestination()
-		if targetX ~= destination.x or targetY ~= destination.y then
+		if self:getCurrentTarget() == evData.unit and (target.x ~= destination.x or target.y ~= destination.y) then
 			self.unit:getBrain():setDestination(evData.unit)
 			self.unit:getBrain():reset()
 			log:write( "DEBUG: updated destination" )
