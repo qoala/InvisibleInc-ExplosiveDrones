@@ -23,8 +23,6 @@ function Actions.qed_ReactToMissileTarget(sim, unit)
 		-- Or something equally weird has gone wrong to "succeed" the old action without a target.
 		return simdefs.BSTATE_FAILED
 	end
-	local targetX,targetY = target:getLocation()
-	log:write( "DEBUG: TRACKING TARGET %d (%d,%d)", target:getID(), targetX, targetY )
 
 	return result
 end

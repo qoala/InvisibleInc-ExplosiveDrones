@@ -56,7 +56,6 @@ local function missileProcessWarpTrigger(self, sim, evData)
 		if self:getCurrentTarget() == evData.unit and (target.x ~= destination.x or target.y ~= destination.y) then
 			self.unit:getBrain():setDestination(evData.unit)
 			self.unit:getBrain():reset()
-			log:write( "DEBUG: updated destination" )
 		end
 	end
 end
