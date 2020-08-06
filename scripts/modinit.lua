@@ -2,7 +2,7 @@
 local function earlyInit( modApi )
 	modApi.requirements =
 	{
-		"Contingency Plan", "Sim Constructor", "Function Library",
+		"Contingency Plan", "Sim Constructor", "Function Library", "Disguise Fix",
 	}
 end
 
@@ -10,6 +10,7 @@ local function init( modApi )
 	local scriptPath = modApi:getScriptPath()
 
 	include( scriptPath .. "/engine" )
+	include( scriptPath .. "/simquery" )
 	include( scriptPath .. "/btree/situations/combat" )
 	include( scriptPath .. "/btree/actions" )
 	include( scriptPath .. "/btree/qed_missilebrain" )

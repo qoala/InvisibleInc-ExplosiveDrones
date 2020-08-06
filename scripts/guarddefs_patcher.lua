@@ -18,12 +18,16 @@ local function armDrone( droneDef )
 	droneDef.abilities._OVERRIDE = nil  -- DEBUG views fail with mixed key and array indices
 	table.insert( droneDef.abilities, "qed_explosivedrone" )
 	droneDef.brain = "qedMissileBrain"
+	droneDef.traits.qedVisualMissile = true
+	droneDef.traits.qedMissile = true
 	droneDef.traits.pacifist = nil
 end
 
 local function disarmDrone( droneDef )
 	removeIfPresent( droneDef.abilities, "qed_explosivedrone" )
 	droneDef.brain = "PacifistBrain"
+	droneDef.traits.qedVisualMissile = nil
+	droneDef.traits.qedMissile = nil
 	droneDef.traits.pacifist = true
 end
 
@@ -54,6 +58,7 @@ end
 function _M.armPulseDrones()
 	if guarddefs.pulse_drone then
 		armDrone( guarddefs.pulse_drone )
+		guarddefs.pulse_drone.traits.qedVisualMissile = nil
 		guarddefs.pulse_drone.traits.pulseScanMissile = true
 	end
 end
@@ -61,7 +66,7 @@ end
 function _M.disarmPulseDrones()
 	if guarddefs.pulse_drone then
 		disarmDrone( guarddefs.pulse_drone )
-		guarddefs.pulse_drone.traits.pulseScanMissile = false
+		guarddefs.pulse_drone.traits.pulseScanMissile = nil
 	end
 end
 
