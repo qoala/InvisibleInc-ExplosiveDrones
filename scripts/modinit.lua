@@ -3,6 +3,7 @@ local function earlyInit( modApi )
 	modApi.requirements =
 	{
 		"Contingency Plan", "Sim Constructor", "Function Library", "Disguise Fix",
+		"Advanced Guard Protocol", "Generation Options+"
 	}
 end
 
@@ -20,8 +21,11 @@ end
 
 local function unload( modApi )
 	local scriptPath = modApi:getScriptPath()
-	local guarddefs_patcher = include( scriptPath .. "/guarddefs_patcher" )
 
+	local simdefs_patcher = include( scriptPath .. "/simdefs_patcher" )
+	simdefs_patcher.resetAllSpawnTables()
+
+	local guarddefs_patcher = include( scriptPath .. "/guarddefs_patcher" )
 	guarddefs_patcher.disarmCameraDrones()
 	guarddefs_patcher.disarmNullDrones()
 	guarddefs_patcher.disarmPulseDrones()
@@ -29,8 +33,11 @@ end
 
 local function load( modApi, options, params )
 	local scriptPath = modApi:getScriptPath()
-	local guarddefs_patcher = include( scriptPath .. "/guarddefs_patcher" )
 
+	local simdefs_patcher = include( scriptPath .. "/simdefs_patcher" )
+	simdefs_patcher.modifyAllSpawnTables( "SWARMING" )
+
+	local guarddefs_patcher = include( scriptPath .. "/guarddefs_patcher" )
 	guarddefs_patcher.armCameraDrones()
 	guarddefs_patcher.armNullDrones()
 	guarddefs_patcher.armPulseDrones()
