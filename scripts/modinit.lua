@@ -12,6 +12,7 @@ local function init( modApi )
 
 	include( scriptPath .. "/engine" )
 	include( scriptPath .. "/simquery" )
+	include( scriptPath .. "/simunit" )
 	include( scriptPath .. "/btree/situations/combat" )
 	include( scriptPath .. "/btree/actions" )
 	include( scriptPath .. "/btree/qed_missilebrain" )

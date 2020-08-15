@@ -58,15 +58,16 @@ end
 function _M.armPulseDrones()
 	if guarddefs.pulse_drone then
 		armDrone( guarddefs.pulse_drone )
+		-- Missile AI that targets via pulse scans, not sight
 		guarddefs.pulse_drone.traits.qedVisualMissile = nil
-		guarddefs.pulse_drone.traits.pulseScanMissile = true
+		guarddefs.pulse_drone.traits.qedScanMissile = true
 	end
 end
 
 function _M.disarmPulseDrones()
 	if guarddefs.pulse_drone then
 		disarmDrone( guarddefs.pulse_drone )
-		guarddefs.pulse_drone.traits.pulseScanMissile = nil
+		guarddefs.pulse_drone.traits.qedScanMissile = nil
 	end
 end
 

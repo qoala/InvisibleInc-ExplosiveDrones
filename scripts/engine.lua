@@ -4,21 +4,32 @@ local simquery = include( "sim/simquery" )
 
 local oldScanCell = simengine.scanCell
 
+local function isAlreadyAttacking( unit )
+	local currentInterest = unit:getBrain():getSenses():getCurrentInterest()
+	return currentInterest and simquery.isEnemyAgent( unit:getPlayerOwner(), currentInterest.sourceUnit, true )
+end
+
+local function handleScannedTarget( self, unit, cell, cellUnit )
+	if not unit:getTraits().qedDelayedScanInterests then
+		unit:getTraits().qedDelayedScanInterests = {}
+	end
+	table.insert( unit:getTraits().qedDelayedScanInterests, { x = cell.x, y = cell.y, unit = cellUnit } )
+
+	if not isAlreadyAttacking( unit ) then
+		-- Hold position rather than potentially move away from the target.
+		unit:useMP( unit:getMP(), self )
+	end
+end
+
 function simengine:scanCell( unit, cell, ignoreDisguise, scanGrenade )
 	oldScanCell( self, unit, cell, ignoreDisguise, scanGrenade )
 
 	local player = unit:getPlayerOwner()
-	-- Skip if the missile already has an interest. Should go there instead.
-	if unit:getTraits().pulseScanMissile and player and player:isNPC() then
-		local currentInterest = unit:getBrain():getSenses():getCurrentInterest()
-		if currentInterest and simquery.isEnemyAgent( player, currentInterest.sourceUnit, true ) then
-			-- Don't interrupt an in-progress attack run
-			return
-		end
+	if unit:getTraits().qedScanMissile and player and player:isNPC() then
 		for i, cellUnit in ipairs( cell.units ) do
 			if simquery.isEnemyAgent( player, cellUnit, ignoreDisguise ) then
-				unit:getBrain():getSenses():addInterest( cell.x, cell.y, simdefs.SENSE_RADIO, simdefs.REASON_HUNTING, cellUnit, ignoreDisguise )
-				unit:useMP( unit:getMP(), self )
+				handleScannedTarget( self, unit, cell, cellUnit )
+				return
 			end
 		end
 	end
