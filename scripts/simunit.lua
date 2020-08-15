@@ -2,6 +2,20 @@ local mathutil = include( "modules/mathutil" )
 local simdefs = include( "sim/simdefs" )
 local simunit = include( "sim/simunit" )
 
+-- Respawn camera drone missiles
+
+local oldKillUnit = simunit.killUnit
+
+function simunit:killUnit( sim, ... )
+	oldKillUnit( self, sim, ... )
+
+	if self:getTraits().corpseTemplate and self:getTraits().qedMissileRespawn then
+		sim:qedAddMissilesToSpawn( self:getUnitData().id )
+	end
+end
+
+-- Pulse Drone scan behavior
+
 local oldOnEndTurn = simunit.onEndTurn
 
 function simunit:onEndTurn( sim, ... )

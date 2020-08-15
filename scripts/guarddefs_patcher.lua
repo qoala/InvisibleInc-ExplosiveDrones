@@ -20,6 +20,7 @@ local function armDrone( droneDef )
 	droneDef.brain = "qedMissileBrain"
 	droneDef.traits.qedVisualMissile = true
 	droneDef.traits.qedMissile = true
+	droneDef.traits.qedMissileRespawn = true
 	droneDef.traits.pacifist = nil
 end
 
@@ -28,6 +29,7 @@ local function disarmDrone( droneDef )
 	droneDef.brain = "PacifistBrain"
 	droneDef.traits.qedVisualMissile = nil
 	droneDef.traits.qedMissile = nil
+	droneDef.traits.qedMissileRespawn = nil
 	droneDef.traits.pacifist = true
 end
 

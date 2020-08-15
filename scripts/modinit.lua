@@ -10,6 +10,7 @@ end
 local function init( modApi )
 	local scriptPath = modApi:getScriptPath()
 
+	include( scriptPath .. "/aiplayer" )
 	include( scriptPath .. "/engine" )
 	include( scriptPath .. "/simquery" )
 	include( scriptPath .. "/simunit" )

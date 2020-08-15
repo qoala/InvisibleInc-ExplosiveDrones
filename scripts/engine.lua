@@ -2,6 +2,30 @@ local simdefs = include( "sim/simdefs" )
 local simengine = include( "sim/engine" )
 local simquery = include( "sim/simquery" )
 
+-- Respawn camera drone missiles
+
+local oldInit = simengine.init
+
+function simengine:init( params, levelData, ... )
+	oldInit( self, params, levelData, ... )
+
+	self._qedMissilesToSpawn = {}
+end
+
+function simengine:qedGetMissilesToSpawn()
+	return self._qedMissilesToSpawn
+end
+
+function simengine:qedAddMissilesToSpawn( unitType )
+	return table.insert( self._qedMissilesToSpawn, unitType )
+end
+
+function simengine:qedResetMissilesToSpawn()
+	self._qedMissilesToSpawn = {}
+end
+
+-- Pulse Drone scan behavior
+
 local oldScanCell = simengine.scanCell
 
 local function isAlreadyAttacking( unit )
