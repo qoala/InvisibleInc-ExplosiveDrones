@@ -80,7 +80,7 @@ local qed_explosivedrone = util.extend( DEFAULT_BUFF )
 		local cell = sim:getCell( userUnit:getLocation() )
 		if cell == evData.to_cell then
 			for _, cellUnit in ipairs( cell.units ) do
-				if cellUnit and simquery.isEnemyAgent( player, cellUnit ) then
+				if cellUnit and simquery.isEnemyAgent( player, cellUnit ) and not cellUnit:isDown() then
 					doExplode( sim, userUnit, cellUnit )
 					break
 				end

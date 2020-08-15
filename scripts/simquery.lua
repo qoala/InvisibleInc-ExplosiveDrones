@@ -29,7 +29,7 @@ function simquery.canMoveUnit( sim, unit, x, y, ... )
 		local player = unit:getPlayerOwner()
 		local endCell = sim:getCell( x, y )
 		for _, cellUnit  in ipairs( endCell.units ) do
-			if (simquery.isEnemyAgent( player, cellUnit )
+			if (simquery.isEnemyAgent( player, cellUnit ) and not cellUnit:isDown()
 				and simquery.couldUnitSee( sim, unit, cellUnit, true )
 				and not knowsAboutTargetUnit( sim, unit, cellUnit )) then
 				-- Trying to diagonally step into an agent around cover. Force a repath.
@@ -49,7 +49,7 @@ function simquery.canSoftPath( sim, unit, startcell, endcell, ... )
 		-- Don't plan diagonal moves that would be blocked by the above canMoveUnit
 		local player = unit:getPlayerOwner()
 		for _, cellUnit in ipairs( endcell.units ) do
-			if (simquery.isEnemyAgent( player, cellUnit )
+			if (simquery.isEnemyAgent( player, cellUnit ) and not cellUnit:isDown()
 					and simquery.couldUnitSee( sim, unit, cellUnit, true )
 					and not knowsAboutTargetUnit( sim, unit, cellUnit )) then
 				return false, simdefs.CANMOVE_DYNAMIC_IMPASS
