@@ -14,14 +14,15 @@ end
 
 -- General changes applicable to all patchable drones.
 
-local function armDrone( droneDef, armamentType )
+local function armDrone( droneDef, armamentType, guarddefOptions )
 	droneDef.abilities._OVERRIDE = nil  -- DEBUG views fail with mixed key and array indices
-	if armamentType == "DISCHARGE" then
+	-- 0: unarmed, 1: explosive, 2: discharge
+	if armamentType == 2 then
 		table.insert( droneDef.abilities, "qed_dischargedrone" )
 		droneDef.traits.qedMissileRespawn = nil
 	else
 		table.insert( droneDef.abilities, "qed_explosivedrone" )
-		droneDef.traits.qedMissileRespawn = true
+		droneDef.traits.qedMissileRespawn = guarddefOptions.respawn_drones
 	end
 	droneDef.brain = "qedMissileBrain"
 	droneDef.traits.qedVisualMissile = true
@@ -41,18 +42,18 @@ end
 
 -- Patchers for each drone definition.
 
-function _M.armCameraDrones()
-	armDrone( guarddefs.camera_drone )
+function _M.armCameraDrones( armamentType, guarddefOptions )
+	armDrone( guarddefs.camera_drone, armamentType, guarddefOptions )
 end
 
 function _M.disarmCameraDrones()
 	disarmDrone( guarddefs.camera_drone )
 end
 
-function _M.armNullDrones()
-	armDrone( guarddefs.null_drone, "DISCHARGE" )
+function _M.armNullDrones( armamentType, guarddefOptions )
+	armDrone( guarddefs.null_drone, armamentType, guarddefOptions )
 	if guarddefs.null_drone_LV2 then
-		armDrone( guarddefs.null_drone_LV2, "DISCHARGE" )
+		armDrone( guarddefs.null_drone_LV2, armamentType, guarddefOptions )
 	end
 end
 
@@ -63,9 +64,9 @@ function _M.disarmNullDrones()
 	end
 end
 
-function _M.armPulseDrones()
+function _M.armPulseDrones( armamentType, guarddefOptions )
 	if guarddefs.pulse_drone then
-		armDrone( guarddefs.pulse_drone )
+		armDrone( guarddefs.pulse_drone, armamentType, guarddefOptions )
 		-- Missile AI that targets via pulse scans, not sight
 		guarddefs.pulse_drone.traits.qedVisualMissile = nil
 		guarddefs.pulse_drone.traits.qedScanMissile = true

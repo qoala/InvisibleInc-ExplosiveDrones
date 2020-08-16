@@ -10,6 +10,59 @@ end
 local function init( modApi )
 	local scriptPath = modApi:getScriptPath()
 
+	modApi:addGenerationOption("arm_camera", STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.ARM_CAMERA,  STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.ARM_CAMERA_TIP, {
+		noUpdate=true,
+		values={ 0, 1, 2, },
+		value=1,
+		strings={
+			STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.UNARMED,
+			STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.EXPLOSIVE,
+			STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.DISCHARGE,
+		}
+	})
+	modApi:addGenerationOption("arm_null", STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.ARM_NULL,  STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.ARM_NULL_TIP, {
+		noUpdate=true,
+		values={ 0, 1, 2, },
+		value=2,  -- Null drones can survive an EMP and are more valuable remaining in place.
+		strings={
+			STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.UNARMED,
+			STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.EXPLOSIVE,
+			STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.DISCHARGE,
+		}
+	})
+	modApi:addGenerationOption("arm_pulse", STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.ARM_PULSE,  STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.ARM_NULL_TIP, {
+		noUpdate=true,
+		values={ 0, 1, 2, },
+		value=1,
+		strings={
+			STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.UNARMED,
+			STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.EXPLOSIVE,
+			STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.DISCHARGE,
+		}
+	})
+
+	modApi:addGenerationOption("camera_spawns", STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.CAMERA_SPAWNS,  STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.CAMERA_SPAWNS_TIP, {
+		noUpdate=true,
+		values={ "UNCHANGED", "MORE", "MANY", "SWARMING" },
+		value="MORE",
+		strings={
+			STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.SPAWN_UNCHANGED,
+			STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.SPAWN_MORE,
+			STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.SPAWN_MANY,
+			STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.SPAWN_SWARMING,
+		}
+	})
+	modApi:addGenerationOption("respawn_drones", STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.RESPAWN_DRONES,  STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.RESPAWN_DRONES_TIP, {
+		noUpdate=true,
+		values={ 0, 1, 2 },
+		value=1,
+		strings={
+			STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.DISABLED,
+			STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.PATROLLING,
+			STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.HUNTING,
+		}
+	})
+
 	include( scriptPath .. "/aiplayer" )
 	include( scriptPath .. "/engine" )
 	include( scriptPath .. "/simquery" )
@@ -37,13 +90,35 @@ end
 local function load( modApi, options, params )
 	local scriptPath = modApi:getScriptPath()
 
-	local simdefs_patcher = include( scriptPath .. "/simdefs_patcher" )
-	simdefs_patcher.modifyAllSpawnTables( "SWARMING" )
+	unload( modApi )
+	if params then
+		local guarddefOptions = {
+			respawn_drones = false
+		}
 
-	local guarddefs_patcher = include( scriptPath .. "/guarddefs_patcher" )
-	guarddefs_patcher.armCameraDrones()
-	guarddefs_patcher.armNullDrones()
-	guarddefs_patcher.armPulseDrones()
+		if options["respawn_drones"] and options["respawn_drones"].value ~= 0 then
+			params.qed_respawn_drones = options["respawn_drones"].value
+			guarddefOptions.respawn_drones = true
+		end
+
+		local guarddefs_patcher = include( scriptPath .. "/guarddefs_patcher" )
+		if options["arm_camera"] and options["arm_camera"].value ~= 0 then
+			guarddefs_patcher.armCameraDrones( options["arm_camera"].value, guarddefOptions )
+		end
+		if options["arm_null"] and options["arm_null"].value ~= 0 then
+			guarddefs_patcher.armNullDrones( options["arm_null"].value, guarddefOptions )
+		end
+		if options["arm_pulse"] and options["arm_pulse"].value ~= 0 then
+			guarddefs_patcher.armPulseDrones( options["arm_pulse"].value, guarddefOptions )
+		end
+
+		local simdefs_patcher = include( scriptPath .. "/simdefs_patcher" )
+		if options["camera_spawns"] and options["camera_spawns"].value ~= "UNCHANGED" then
+			simdefs_patcher.modifyAllSpawnTables( options["camera_spawns"].value )
+		else
+			simdefs_patcher.resetAllSpawnTables()
+		end
+	end
 end
 
 local function initStrings( modApi )
