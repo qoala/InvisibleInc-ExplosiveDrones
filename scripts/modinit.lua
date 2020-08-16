@@ -51,7 +51,7 @@ local function initStrings( modApi )
 	local scriptPath = modApi:getScriptPath()
 
 	local MOD_STRINGS = include( scriptPath .. "/strings" )
-	modApi:addStrings( dataPath, "QED_REARMEDDRONES", MOD_STRINGS)
+	modApi:addStrings( dataPath, "QED_EXPLOSIVEDRONES", MOD_STRINGS)
 end
 
 return {

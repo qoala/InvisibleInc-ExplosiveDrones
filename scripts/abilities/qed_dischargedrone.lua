@@ -56,8 +56,8 @@ end
 
 local qed_dischargedrone = util.extend( DEFAULT_BUFF )
 {
-	name = STRINGS.QED_REARMEDDRONES.ABILITIES.DISCHARGEDRONE,
-	buffDesc = STRINGS.QED_REARMEDDRONES.ABILITIES.DISCHARGEDRONE_DESC,
+	name = STRINGS.QED_EXPLOSIVEDRONES.ABILITIES.DISCHARGEDRONE,
+	buffDesc = STRINGS.QED_EXPLOSIVEDRONES.ABILITIES.DISCHARGEDRONE_DESC,
 	ghostable = true,  -- Show on fog of war ghosts
 
 	onSpawnAbility = function( self, sim, unit )
