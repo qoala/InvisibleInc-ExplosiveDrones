@@ -14,17 +14,23 @@ end
 
 -- General changes applicable to all patchable drones.
 
-local function armDrone( droneDef )
+local function armDrone( droneDef, armamentType )
 	droneDef.abilities._OVERRIDE = nil  -- DEBUG views fail with mixed key and array indices
-	table.insert( droneDef.abilities, "qed_explosivedrone" )
+	if armamentType == "DISCHARGE" then
+		table.insert( droneDef.abilities, "qed_dischargedrone" )
+		droneDef.traits.qedMissileRespawn = nil
+	else
+		table.insert( droneDef.abilities, "qed_explosivedrone" )
+		droneDef.traits.qedMissileRespawn = true
+	end
 	droneDef.brain = "qedMissileBrain"
 	droneDef.traits.qedVisualMissile = true
 	droneDef.traits.qedMissile = true
-	droneDef.traits.qedMissileRespawn = true
 	droneDef.traits.pacifist = nil
 end
 
 local function disarmDrone( droneDef )
+	removeIfPresent( droneDef.abilities, "qed_dischargedrone" )
 	removeIfPresent( droneDef.abilities, "qed_explosivedrone" )
 	droneDef.brain = "PacifistBrain"
 	droneDef.traits.qedVisualMissile = nil
@@ -44,9 +50,9 @@ function _M.disarmCameraDrones()
 end
 
 function _M.armNullDrones()
-	armDrone( guarddefs.null_drone )
+	armDrone( guarddefs.null_drone, "DISCHARGE" )
 	if guarddefs.null_drone_LV2 then
-		armDrone( guarddefs.null_drone_LV2 )
+		armDrone( guarddefs.null_drone_LV2, "DISCHARGE" )
 	end
 end
 

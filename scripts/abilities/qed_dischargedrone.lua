@@ -23,26 +23,30 @@ local DEFAULT_BUFF =
 }
 
 local VIZ_RANGE = 1.35
-local SOUND_RANGE = 8
+local SOUND_RANGE = 4
+local KO_DAMAGE = 3
+local SELF_KO_DAMAGE = 2  -- If triggered on the corp turn, this ticks immediately.
 
 local function doExplode( sim, userUnit, target )
 	sim:startTrackerQueue( true )
 	sim:startDaemonQueue()
 
-	-- Light and sound, like a flash pack/shock mine
+	-- Light and sound, like an EMP
 	local x0,y0 = userUnit:getLocation()
-	sim:dispatchEvent( simdefs.EV_FLASH_VIZ, {x = x0, y = y0, units = nil, range = math.floor(VIZ_RANGE) } )
-	local soundRange = { path = nil, range = SOUND_RANGE }
-	sim:emitSound( soundRange, x0, y0, target )
+	sim:dispatchEvent( simdefs.EV_OVERLOAD_VIZ, {x = x0, y = y0, units = { userUnit, target }, range = math.floor(VIZ_RANGE) } )
+	sim:emitSound( simdefs.SOUND_SMALL, x0, y0, nil )
 
-	-- Damage
-	local dmgt =
-	{
-		damage = 1,
-		ko = false,
-	}
-	sim:hitUnit( userUnit, target, dmgt )
-	userUnit:killUnit(sim)
+	-- KO/EMP target
+	target:processEMP( KO_DAMAGE, true )
+	if not target:getTraits().isDrone then
+		local damage = KO_DAMAGE
+		if sim:isVersion("0.17.5") then
+			damage = target:processKOresist( damage )
+		end
+		target:setKO( sim, damage )
+	end
+	-- KO/EMP self
+	userUnit:processEMP( SELF_KO_DAMAGE, true )
 
 	sim:startTrackerQueue( false )
 	sim:processDaemonQueue()
@@ -50,10 +54,10 @@ local function doExplode( sim, userUnit, target )
 	sim:processReactions()
 end
 
-local qed_explosivedrone = util.extend( DEFAULT_BUFF )
+local qed_dischargedrone = util.extend( DEFAULT_BUFF )
 {
-	name = STRINGS.QED_REARMEDDRONES.ABILITIES.EXPLOSIVEDRONE,
-	buffDesc = STRINGS.QED_REARMEDDRONES.ABILITIES.EXPLOSIVEDRONE_DESC,
+	name = STRINGS.QED_REARMEDDRONES.ABILITIES.DISCHARGEDRONE,
+	buffDesc = STRINGS.QED_REARMEDDRONES.ABILITIES.DISCHARGEDRONE_DESC,
 	ghostable = true,  -- Show on fog of war ghosts
 
 	onSpawnAbility = function( self, sim, unit )
@@ -88,4 +92,4 @@ local qed_explosivedrone = util.extend( DEFAULT_BUFF )
 	end,
 }
 
-return qed_explosivedrone
+return qed_dischargedrone

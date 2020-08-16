@@ -18,6 +18,7 @@ local function init( modApi )
 	include( scriptPath .. "/btree/actions" )
 	include( scriptPath .. "/btree/qed_missilebrain" )
 
+	modApi:addAbilityDef( "qed_dischargedrone", scriptPath .. "/abilities/qed_dischargedrone" )
 	modApi:addAbilityDef( "qed_explosivedrone", scriptPath .. "/abilities/qed_explosivedrone" )
 end
 
