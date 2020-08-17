@@ -24,8 +24,8 @@ local DEFAULT_BUFF =
 
 local VIZ_RANGE = 1.35
 local SOUND_RANGE = 4
-local KO_DAMAGE = 3
-local SELF_KO_DAMAGE = 2  -- If triggered on the corp turn, this ticks immediately.
+local KO_DAMAGE = 2
+local SELF_KO_DAMAGE = 1  -- If triggered on the corp turn, this ticks immediately.
 
 local function doExplode( sim, userUnit, target )
 	sim:startTrackerQueue( true )
