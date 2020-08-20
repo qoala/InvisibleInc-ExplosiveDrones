@@ -34,6 +34,11 @@ local DLC_STRINGS =
 		DISABLED = "DISABLED",
 		PATROLLING = "PATROLLING",
 		HUNTING = "HUNTING",
+
+		KILLER_CAMERA_DRONES = "KILLER CAMERA/NULL DRONES",
+		KILLER_CAMERA_DRONES_TIP = "<c:FF8411>KILLER CAMERA/NULL DRONES</c>Drones with proximity weapons and a vision range no longer pause before trying to attack. Only affects drones that are given a proximity weapon above.",
+		KILLER_PULSE_DRONES = "KILLER PULSE DRONES",
+		KILLER_PULSE_DRONES_TIP = "<c:FF8411>KILLER PULSE DRONES</c>Pulse drones with proximity weapons no longer pause before trying to attack. Only affects drones that are given a proximity weapon above.",
 	},
 }
 

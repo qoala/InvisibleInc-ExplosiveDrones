@@ -63,6 +63,9 @@ local function init( modApi )
 		}
 	})
 
+	modApi:addGenerationOption("killer_visual_drones", STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.KILLER_CAMERA_DRONES,  STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.KILLER_CAMERA_DRONES_TIP, {noUpdate=true, enabled=false})
+	modApi:addGenerationOption("killer_pulse_drones", STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.KILLER_PULSE_DRONES,  STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.KILLER_PULSE_DRONES_TIP, {noUpdate=true, enabled=false})
+
 	include( scriptPath .. "/aiplayer" )
 	include( scriptPath .. "/engine" )
 	include( scriptPath .. "/simquery" )
@@ -99,6 +102,16 @@ local function load( modApi, options, params )
 		if options["respawn_drones"] and options["respawn_drones"].value ~= 0 then
 			params.qed_respawn_drones = options["respawn_drones"].value
 			guarddefOptions.respawn_drones = true
+		end
+		if options["killer_visual_drones"] and options["killer_visual_drones"].enabled then
+			params.qed_killer_visual_drones = true
+		else
+			params.qed_killer_visual_drones = false
+		end
+		if options["killer_pulse_drones"] and options["killer_pulse_drones"].enabled then
+			params.qed_killer_pulse_drones = true
+		else
+			params.qed_killer_pulse_drones = false
 		end
 
 		local guarddefs_patcher = include( scriptPath .. "/guarddefs_patcher" )

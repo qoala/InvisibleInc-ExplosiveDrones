@@ -10,7 +10,8 @@ function Actions.qed_ReactToMissileTarget(sim, unit)
 		return result
 	end
 
-	if not unit:isAiming() then
+	local visualMissileOverwatch = not sim:getParams().difficultyOptions.qed_killer_visual_drones
+	if visualMissileOverwatch and not unit:isAiming() then
 		unit:setAiming( true )
 		if sim:getCurrentPlayer() == unit:getPlayerOwner() then
 			-- Missile overwatch: wait until the next turn to attack.

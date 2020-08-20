@@ -34,14 +34,18 @@ local function isAlreadyAttacking( unit )
 end
 
 local function handleScannedTarget( self, unit, cell, cellUnit )
-	if not unit:getTraits().qedDelayedScanInterests then
-		unit:getTraits().qedDelayedScanInterests = {}
-	end
-	table.insert( unit:getTraits().qedDelayedScanInterests, { x = cell.x, y = cell.y, unit = cellUnit } )
+	if self:getParams().difficultyOptions.qed_killer_pulse_drones then
+		unit:getBrain():getSenses():addInterest( cell.x, cell.y, simdefs.SENSE_RADIO, simdefs.REASON_HUNTING, cellUnit, true )
+	else
+		if not unit:getTraits().qedDelayedScanInterests then
+			unit:getTraits().qedDelayedScanInterests = {}
+		end
+		table.insert( unit:getTraits().qedDelayedScanInterests, { x = cell.x, y = cell.y, unit = cellUnit } )
 
-	if not isAlreadyAttacking( unit ) then
-		-- Hold position rather than potentially move away from the target.
-		unit:useMP( unit:getMP(), self )
+		if not isAlreadyAttacking( unit ) then
+			-- Hold position rather than potentially move away from the target.
+			unit:useMP( unit:getMP(), self )
+		end
 	end
 end
 

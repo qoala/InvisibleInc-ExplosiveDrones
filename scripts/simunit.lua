@@ -33,7 +33,7 @@ function simunit:onEndTurn( sim, ... )
 				end
 			end
 			if bestTarget then
-				self:getBrain():getSenses():addInterest(bestTarget.x, bestTarget.y, simdefs.SENSE_RADIO, simdefs.REASON_HUNTING, bestTarget.unit, true )
+				self:getBrain():getSenses():addInterest( bestTarget.x, bestTarget.y, simdefs.SENSE_RADIO, simdefs.REASON_HUNTING, bestTarget.unit, true )
 				sim:processReactions( self )
 			end
 		end
