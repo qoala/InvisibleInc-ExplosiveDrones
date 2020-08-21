@@ -1,6 +1,6 @@
 
 -- Shared explanation of the "ARM X DRONE" tip choices.
-local ARM_TIP = "UNARMED: No change (vanilla)\nEXPLOSIVE: Lethal damage to self and target.\nDISCHARGE: KO damage to self and target."
+local ARM_TIP = "UNARMED: No change (vanilla)\nEXPLOSIVE: Lethal damage to self and target.\nDISCHARGE: KO/EMP damage to self and target."
 
 local DLC_STRINGS =
 {
@@ -8,13 +8,13 @@ local DLC_STRINGS =
 		EXPLOSIVEDRONE = "PROXIMITY EXPLOSIVE",
 		EXPLOSIVEDRONE_DESC = "Detonates when an active enemy is on the same tile.\nIgnores cloak. Lethal damage. Noisy.",
 		DISCHARGEDRONE = "PROXIMITY DISCHARGE",
-		DISCHARGEDRONE_DESC = "KOs target and self when an active enemy is on the same tile.\nIgnores cloak. Emits noise.",
+		DISCHARGEDRONE_DESC = "KOs/EMPs target and self when an active enemy is on the same tile.\nIgnores cloak. Emits noise.",
 	},
 
 	OPTIONS = {
 		UNARMED = "UNARMED",
-		EXPLOSIVE = "EXPLOSIVE",
-		DISCHARGE = "DISCHARGE",
+		EXPLOSIVE = "EXPLOSIVE (lethal)",
+		DISCHARGE = "DISCHARGE (KO)",
 		ARM_CAMERA = "ARM CAMERA DRONES",
 		ARM_CAMERA_TIP = "<c:FF8411>ARM CAMERA DRONES</c>\nArm camera drones with a proximity weapon and behavior.\n" .. ARM_TIP,
 		ARM_NULL = "ARM NULL DRONES",
