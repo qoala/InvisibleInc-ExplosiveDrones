@@ -3,7 +3,8 @@ local function earlyInit( modApi )
 	modApi.requirements =
 	{
 		"Contingency Plan", "Sim Constructor", "Function Library", "Disguise Fix",
-		"Advanced Guard Protocol", "Generation Options+"
+		"Advanced Guard Protocol", "Generation Options+",
+		"Permadeath"  -- Replaces sim/abilities/lastWords
 	}
 end
 
@@ -84,6 +85,7 @@ local function init( modApi )
 	include( scriptPath .. "/btree/actions" )
 	include( scriptPath .. "/btree/qed_missilebrain" )
 
+	modApi:addAbilityDef( "lastWords", scriptPath .. "/abilities/lastWords" )
 	modApi:addAbilityDef( "qed_dischargedrone", scriptPath .. "/abilities/qed_dischargedrone" )
 	modApi:addAbilityDef( "qed_explosivedrone", scriptPath .. "/abilities/qed_explosivedrone" )
 end

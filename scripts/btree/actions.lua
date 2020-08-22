@@ -49,8 +49,10 @@ function Actions.qed_IgnoreOtherTargets(sim, unit)
 end
 
 function Actions.qed_ResetTargeting(sim, unit)
-	unit:getTraits().noPeripheralDetection = nil
-	unit:getTraits().noInterrupt = nil
+	if not unit:getTraits().movePath then
+		unit:getTraits().noPeripheralDetection = nil
+		unit:getTraits().noInterrupt = nil
+	end
 	return simdefs.BSTATE_COMPLETE
 end
 

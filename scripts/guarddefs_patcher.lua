@@ -83,9 +83,9 @@ end
 function _M.armRefitDrones( armamentType, guarddefOptions )
 	if guarddefs.refit_drone then
 		armDrone( guarddefs.refit_drone, armamentType, guarddefOptions )
-		if droneDef.traits.qedMissileRespawn then
+		if guarddefs.refit_drone.traits.qedMissileRespawn then
 			-- Respawn normal camera drones instead. The valuable data just exploded.
-			droneDef.traits.qedMissileRespawn = 'camera_drone'
+			guarddefs.refit_drone.traits.qedMissileRespawn = 'camera_drone'
 		end
 	end
 end
