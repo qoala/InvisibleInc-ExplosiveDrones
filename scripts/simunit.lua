@@ -10,7 +10,13 @@ function simunit:killUnit( sim, ... )
 	oldKillUnit( self, sim, ... )
 
 	if self:getTraits().corpseTemplate and self:getTraits().qedMissileRespawn then
-		sim:qedAddMissilesToSpawn( self:getUnitData().id )
+		if type(self:getTraits()) == 'string' then
+			-- Respawning a different unit type
+			sim:qedAddMissilesToSpawn( self:getTraits().qedMissileRespawn )
+		else
+			-- Respawning the same unit type
+			sim:qedAddMissilesToSpawn( self:getUnitData().id )
+		end
 	end
 end
 

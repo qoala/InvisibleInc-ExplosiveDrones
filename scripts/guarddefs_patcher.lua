@@ -80,4 +80,20 @@ function _M.disarmPulseDrones()
 	end
 end
 
+function _M.armRefitDrones( armamentType, guarddefOptions )
+	if guarddefs.refit_drone then
+		armDrone( guarddefs.refit_drone, armamentType, guarddefOptions )
+		if droneDef.traits.qedMissileRespawn then
+			-- Respawn normal camera drones instead. The valuable data just exploded.
+			droneDef.traits.qedMissileRespawn = 'camera_drone'
+		end
+	end
+end
+
+function _M.disarmRefitDrones()
+	if guarddefs.refit_drone then
+		disarmDrone( guarddefs.refit_drone )
+	end
+end
+
 return _M

@@ -30,7 +30,17 @@ local function init( modApi )
 			STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.DISCHARGE,
 		}
 	})
-	modApi:addGenerationOption("arm_pulse", STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.ARM_PULSE,  STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.ARM_NULL_TIP, {
+	modApi:addGenerationOption("arm_pulse", STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.ARM_PULSE,  STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.ARM_REFIT_TIP, {
+		noUpdate=true,
+		values={ 0, 1, 2, },
+		value=1,
+		strings={
+			STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.UNARMED,
+			STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.EXPLOSIVE,
+			STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.DISCHARGE,
+		}
+	})
+	modApi:addGenerationOption("arm_refit", STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.ARM_REFIT,  STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.ARM_REFIT_TIP, {
 		noUpdate=true,
 		values={ 0, 1, 2, },
 		value=1,
@@ -88,6 +98,7 @@ local function unload( modApi )
 	guarddefs_patcher.disarmCameraDrones()
 	guarddefs_patcher.disarmNullDrones()
 	guarddefs_patcher.disarmPulseDrones()
+	guarddefs_patcher.disarmRefitDrones()
 end
 
 local function load( modApi, options, params )
@@ -123,6 +134,9 @@ local function load( modApi, options, params )
 		end
 		if options["arm_pulse"] and options["arm_pulse"].value ~= 0 then
 			guarddefs_patcher.armPulseDrones( options["arm_pulse"].value, guarddefOptions )
+		end
+		if options["arm_refit"] and options["arm_refit"].value ~= 0 then
+			guarddefs_patcher.armRefitDrones( options["arm_refit"].value, guarddefOptions )
 		end
 
 		local simdefs_patcher = include( scriptPath .. "/simdefs_patcher" )
