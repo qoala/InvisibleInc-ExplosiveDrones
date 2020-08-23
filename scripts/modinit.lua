@@ -132,6 +132,20 @@ local function load( modApi, options, params )
 			params.qed_killer_pulse_drones = false
 		end
 
+		local simdefs_patcher = include( scriptPath .. "/simdefs_patcher" )
+		if options["camera_spawns"] and options["camera_spawns"].value ~= "UNCHANGED" then
+			simdefs_patcher.modifyAllSpawnTables( options["camera_spawns"].value )
+		else
+			simdefs_patcher.resetAllSpawnTables()
+		end
+	end
+end
+
+local function lateLoad( modApi, options, params )
+	local scriptPath = modApi:getScriptPath()
+
+	if params then
+		-- Patch guarddefs during lateload, after AGP has potentially saved and restored them.
 		local guarddefs_patcher = include( scriptPath .. "/guarddefs_patcher" )
 		if options["arm_camera"] and options["arm_camera"].value ~= 0 then
 			guarddefs_patcher.armCameraDrones( options["arm_camera"].value )
@@ -148,13 +162,6 @@ local function load( modApi, options, params )
 		if options["arm_ce_crazy"] and options["arm_ce_crazy"].value ~= 0 then
 			guarddefs_patcher.armCeCrazyDrones( options["arm_ce_crazy"].value )
 		end
-
-		local simdefs_patcher = include( scriptPath .. "/simdefs_patcher" )
-		if options["camera_spawns"] and options["camera_spawns"].value ~= "UNCHANGED" then
-			simdefs_patcher.modifyAllSpawnTables( options["camera_spawns"].value )
-		else
-			simdefs_patcher.resetAllSpawnTables()
-		end
 	end
 end
 
@@ -170,6 +177,7 @@ return {
 	earlyInit = earlyInit,
 	init = init,
 	load = load,
+	lateLoad = lateLoad,
 	unload = unload,
 	initStrings = initStrings,
 }

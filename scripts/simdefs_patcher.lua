@@ -446,7 +446,7 @@ end
 local function setAgpOmniSpawnTable( spawnOption, cameraSpawnTable )
 	for i=1,20 do
 		local chosenList
-		if #(AGP_CAMERA_OMNI_SPAWN_TABLE[i]) > #(cameraSpawnTable[i]) then
+		if #(AGP_CAMERA_OMNI_SPAWN_TABLE[spawnOption][i]) > #(cameraSpawnTable[i]) then
 			chosenList = AGP_CAMERA_OMNI_SPAWN_TABLE[i]
 		else
 			chosenList = cameraSpawnTable[i]
