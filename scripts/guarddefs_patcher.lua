@@ -19,7 +19,8 @@ local function armDrone( droneDef, armamentType )
 	-- 0: unarmed, 1: explosive, 2: discharge
 	if armamentType == 2 then
 		table.insert( droneDef.abilities, "qed_dischargedrone" )
-		droneDef.traits.qedMissileRespawn = nil
+		-- Respawn if Discharge is lethal to self (not that this is likely a good armament).
+		droneDef.traits.qedMissileRespawn = droneDef.traits.empDeath
 	else
 		table.insert( droneDef.abilities, "qed_explosivedrone" )
 		droneDef.traits.qedMissileRespawn = true
