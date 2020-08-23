@@ -51,6 +51,16 @@ local function init( modApi )
 			STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.DISCHARGE,
 		}
 	})
+	modApi:addGenerationOption("arm_ce_crazy", STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.ARM_CRAZY,  STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.ARM_CRAZY_TIP, {
+		noUpdate=true,
+		values={ 0, 1, 2, },
+		value=1,
+		strings={
+			STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.UNARMED,
+			STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.EXPLOSIVE,
+			STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.DISCHARGE,
+		}
+	})
 
 	modApi:addGenerationOption("camera_spawns", STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.CAMERA_SPAWNS,  STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.CAMERA_SPAWNS_TIP, {
 		noUpdate=true,
@@ -139,6 +149,9 @@ local function load( modApi, options, params )
 		end
 		if options["arm_refit"] and options["arm_refit"].value ~= 0 then
 			guarddefs_patcher.armRefitDrones( options["arm_refit"].value, guarddefOptions )
+		end
+		if options["arm_ce_crazy"] and options["arm_ce_crazy"].value ~= 0 then
+			guarddefs_patcher.armCeCrazyDrones( options["arm_ce_crazy"].value, guarddefOptions )
 		end
 
 		local simdefs_patcher = include( scriptPath .. "/simdefs_patcher" )

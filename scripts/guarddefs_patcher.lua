@@ -96,4 +96,16 @@ function _M.disarmRefitDrones()
 	end
 end
 
+function _M.armCeCrazyDrones( armamentType, guarddefOptions )
+	if guarddefs.ce_crazy_drone then
+		armDrone( guarddefs.ce_crazy_drone, armamentType, guarddefOptions )
+	end
+end
+
+function _M.disarmNullDrones()
+	if guarddefs.ce_crazy_drone then
+		disarmDrone( guarddefs.ce_crazy_drone )
+	end
+end
+
 return _M
