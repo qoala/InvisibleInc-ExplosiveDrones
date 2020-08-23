@@ -9,7 +9,7 @@ local oldKillUnit = simunit.killUnit
 function simunit:killUnit( sim, ... )
 	oldKillUnit( self, sim, ... )
 
-	if self:getTraits().corpseTemplate and self:getTraits().qedMissileRespawn then
+	if self:getTraits().corpseTemplate and self:getTraits().qedMissileRespawn and (sim:getParams().difficultyOptions.qed_respawn_drones or 0) > 0 then
 		if type(self:getTraits().qedMissileRespawn) == 'string' then
 			-- Respawning a different unit type
 			sim:qedAddMissilesToSpawn( self:getTraits().qedMissileRespawn )

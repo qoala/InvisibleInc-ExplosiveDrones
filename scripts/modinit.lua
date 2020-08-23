@@ -118,13 +118,8 @@ local function load( modApi, options, params )
 
 	unload( modApi )
 	if params then
-		local guarddefOptions = {
-			respawn_drones = false
-		}
-
 		if options["respawn_drones"] and options["respawn_drones"].value ~= 0 then
 			params.qed_respawn_drones = options["respawn_drones"].value
-			guarddefOptions.respawn_drones = true
 		end
 		if options["killer_visual_drones"] and options["killer_visual_drones"].enabled then
 			params.qed_killer_visual_drones = true
@@ -139,19 +134,19 @@ local function load( modApi, options, params )
 
 		local guarddefs_patcher = include( scriptPath .. "/guarddefs_patcher" )
 		if options["arm_camera"] and options["arm_camera"].value ~= 0 then
-			guarddefs_patcher.armCameraDrones( options["arm_camera"].value, guarddefOptions )
+			guarddefs_patcher.armCameraDrones( options["arm_camera"].value )
 		end
 		if options["arm_null"] and options["arm_null"].value ~= 0 then
-			guarddefs_patcher.armNullDrones( options["arm_null"].value, guarddefOptions )
+			guarddefs_patcher.armNullDrones( options["arm_null"].value )
 		end
 		if options["arm_pulse"] and options["arm_pulse"].value ~= 0 then
-			guarddefs_patcher.armPulseDrones( options["arm_pulse"].value, guarddefOptions )
+			guarddefs_patcher.armPulseDrones( options["arm_pulse"].value )
 		end
 		if options["arm_refit"] and options["arm_refit"].value ~= 0 then
-			guarddefs_patcher.armRefitDrones( options["arm_refit"].value, guarddefOptions )
+			guarddefs_patcher.armRefitDrones( options["arm_refit"].value )
 		end
 		if options["arm_ce_crazy"] and options["arm_ce_crazy"].value ~= 0 then
-			guarddefs_patcher.armCeCrazyDrones( options["arm_ce_crazy"].value, guarddefOptions )
+			guarddefs_patcher.armCeCrazyDrones( options["arm_ce_crazy"].value )
 		end
 
 		local simdefs_patcher = include( scriptPath .. "/simdefs_patcher" )

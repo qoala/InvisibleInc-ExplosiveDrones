@@ -14,7 +14,7 @@ end
 
 -- General changes applicable to all patchable drones.
 
-local function armDrone( droneDef, armamentType, guarddefOptions )
+local function armDrone( droneDef, armamentType )
 	droneDef.abilities._OVERRIDE = nil  -- DEBUG views fail with mixed key and array indices
 	-- 0: unarmed, 1: explosive, 2: discharge
 	if armamentType == 2 then
@@ -22,7 +22,7 @@ local function armDrone( droneDef, armamentType, guarddefOptions )
 		droneDef.traits.qedMissileRespawn = nil
 	else
 		table.insert( droneDef.abilities, "qed_explosivedrone" )
-		droneDef.traits.qedMissileRespawn = guarddefOptions.respawn_drones
+		droneDef.traits.qedMissileRespawn = true
 	end
 	droneDef.brain = "qedMissileBrain"
 	droneDef.traits.qedVisualMissile = true
@@ -42,18 +42,18 @@ end
 
 -- Patchers for each drone definition.
 
-function _M.armCameraDrones( armamentType, guarddefOptions )
-	armDrone( guarddefs.camera_drone, armamentType, guarddefOptions )
+function _M.armCameraDrones( armamentType )
+	armDrone( guarddefs.camera_drone, armamentType )
 end
 
 function _M.disarmCameraDrones()
 	disarmDrone( guarddefs.camera_drone )
 end
 
-function _M.armNullDrones( armamentType, guarddefOptions )
-	armDrone( guarddefs.null_drone, armamentType, guarddefOptions )
+function _M.armNullDrones( armamentType )
+	armDrone( guarddefs.null_drone, armamentType )
 	if guarddefs.null_drone_LV2 then
-		armDrone( guarddefs.null_drone_LV2, armamentType, guarddefOptions )
+		armDrone( guarddefs.null_drone_LV2, armamentType )
 	end
 end
 
@@ -64,9 +64,9 @@ function _M.disarmNullDrones()
 	end
 end
 
-function _M.armPulseDrones( armamentType, guarddefOptions )
+function _M.armPulseDrones( armamentType )
 	if guarddefs.pulse_drone then
-		armDrone( guarddefs.pulse_drone, armamentType, guarddefOptions )
+		armDrone( guarddefs.pulse_drone, armamentType )
 		-- Missile AI that targets via pulse scans, not sight
 		guarddefs.pulse_drone.traits.qedVisualMissile = nil
 		guarddefs.pulse_drone.traits.qedScanMissile = true
@@ -80,9 +80,9 @@ function _M.disarmPulseDrones()
 	end
 end
 
-function _M.armRefitDrones( armamentType, guarddefOptions )
+function _M.armRefitDrones( armamentType )
 	if guarddefs.refit_drone then
-		armDrone( guarddefs.refit_drone, armamentType, guarddefOptions )
+		armDrone( guarddefs.refit_drone, armamentType )
 		if guarddefs.refit_drone.traits.qedMissileRespawn then
 			-- Respawn normal camera drones instead. The valuable data just exploded.
 			guarddefs.refit_drone.traits.qedMissileRespawn = 'camera_drone'
@@ -96,9 +96,9 @@ function _M.disarmRefitDrones()
 	end
 end
 
-function _M.armCeCrazyDrones( armamentType, guarddefOptions )
+function _M.armCeCrazyDrones( armamentType )
 	if guarddefs.ce_crazy_drone then
-		armDrone( guarddefs.ce_crazy_drone, armamentType, guarddefOptions )
+		armDrone( guarddefs.ce_crazy_drone, armamentType )
 	end
 end
 
