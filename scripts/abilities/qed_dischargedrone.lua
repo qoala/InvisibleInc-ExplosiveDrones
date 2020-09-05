@@ -110,7 +110,7 @@ local qed_dischargedrone = util.extend( DEFAULT_BUFF )
 			return
 		end
 		for _, cellUnit in ipairs( cell.units ) do
-			if cellUnit and simquery.isEnemyAgent( player, cellUnit ) and not cellUnit:isDown() then
+			if cellUnit and not cellUnit:isDown() and (simquery.isEnemyAgent( player, cellUnit ) or simquery.isKnownTraitor( cellUnit, userUnit )) then
 				doExplode( sim, userUnit, cellUnit )
 				break
 			end
