@@ -50,6 +50,23 @@ local function doExplode( sim, userUnit, target )
 	sim:processReactions()
 end
 
+local function wrapTakeControl( unit )
+	local oldTakeControl = unit.takeControl
+
+	function unit:takeControl( player, ... )
+		oldTakeControl( self, player, ... )
+
+		local sim = self:getSim()
+		local cell = sim:getCell( self:getLocation() )
+		for _, ability in ipairs( self._abilities ) do
+			if ability.qedCheckProximityTrigger then
+				ability:qedCheckProximityTrigger( sim, self, cell )
+				break
+			end
+		end
+	end
+end
+
 local qed_explosivedrone = util.extend( DEFAULT_BUFF )
 {
 	name = STRINGS.QED_EXPLOSIVEDRONES.ABILITIES.EXPLOSIVEDRONE,
@@ -58,6 +75,7 @@ local qed_explosivedrone = util.extend( DEFAULT_BUFF )
 
 	onSpawnAbility = function( self, sim, unit )
 		sim:addTrigger( simdefs.TRG_UNIT_WARP, self, unit )
+		wrapTakeControl( unit )
 	end,
 
 	onDespawnAbility = function( self, sim, unit )
