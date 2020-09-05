@@ -72,21 +72,25 @@ local qed_dischargedrone = util.extend( DEFAULT_BUFF )
 		if evType ~= simdefs.TRG_UNIT_WARP or evData.from_cell == evData.to_cell then
 			return
 		end
-		local player = userUnit:getPlayerOwner()
-		if not userUnit:isValid() or userUnit:isDown() or (not player:isNPC() and not sim:getParams().difficultyOptions.qed_explosive_armed_when_hacked) then
-			return
-		end
 		if not evData.unit:isValid() or evData.unit:isDown() then
 			return
 		end
 
 		local cell = sim:getCell( userUnit:getLocation() )
 		if cell == evData.to_cell then
-			for _, cellUnit in ipairs( cell.units ) do
-				if cellUnit and simquery.isEnemyAgent( player, cellUnit ) and not cellUnit:isDown() then
-					doExplode( sim, userUnit, cellUnit )
-					break
-				end
+			self:qedCheckProximityTrigger( sim, userUnit, cell )
+		end
+	end,
+
+	qedCheckProximityTrigger = function( self, sim, userUnit, cell )
+		local player = userUnit:getPlayerOwner()
+		if not userUnit:isValid() or userUnit:isDown() or (not player:isNPC() and not sim:getParams().difficultyOptions.qed_explosive_armed_when_hacked) then
+			return
+		end
+		for _, cellUnit in ipairs( cell.units ) do
+			if cellUnit and simquery.isEnemyAgent( player, cellUnit ) and not cellUnit:isDown() then
+				doExplode( sim, userUnit, cellUnit )
+				break
 			end
 		end
 	end,
