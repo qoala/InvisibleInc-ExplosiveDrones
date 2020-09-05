@@ -46,7 +46,11 @@ local function doExplode( sim, userUnit, target )
 		target:setKO( sim, damage )
 	end
 	-- KO/EMP self
-	userUnit:processEMP( SELF_KO_DAMAGE, true )
+	if (userUnit:getPlayerOwner():isPC()) then
+		userUnit:loseControl( sim )
+	else
+		userUnit:processEMP( SELF_KO_DAMAGE, true )
+	end
 
 	sim:startTrackerQueue( false )
 	sim:processDaemonQueue()
