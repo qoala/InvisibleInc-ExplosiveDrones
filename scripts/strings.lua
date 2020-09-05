@@ -34,11 +34,13 @@ local DLC_STRINGS =
 		SPAWN_SWARMING = "SWARMING",
 
 		RESPAWN_DRONES = "RESPAWN EXPLOSIVE DRONES",
-		RESPAWN_DRONES_TIP = "<c:FF8411>RESPAWN EXPLOSIVE DRONES</c>\nIf enabled, drones armed with proximity explosives respawn after their destruction.\nDISABLED: No respawn.\nPATROLLING: Respawn with a random patrol, like alarm 3 & 4 guards.\nHUNTING: Respawn alerted, like enforcers.",
+		RESPAWN_DRONES_TIP = "<c:FF8411>RESPAWN EXPLOSIVE DRONES</c>\nWhen enabled, drones armed with proximity explosives respawn after their destruction.\nDISABLED: No respawn.\nPATROLLING: Respawn with a random patrol, like alarm 3 & 4 guards.\nHUNTING: Respawn alerted, like enforcers.",
 		DISABLED = "DISABLED",
 		PATROLLING = "PATROLLING",
 		HUNTING = "HUNTING",
 
+		ARMED_WHEN_HACKED = "ARMED WHEN HACKED",
+		ARMED_WHEN_HACKED_TIP = "<c:FF8411>ARMED WHEN HACKED</c>\nWhen enabled, drones armed with proximity weapons retain these weapons while hacked. While hacked, they trigger on guards and non-hacked drones. The detonation is automatic, like K&O turrets.",
 		KILLER_CAMERA_DRONES = "KILLER CAMERA/NULL DRONES",
 		KILLER_CAMERA_DRONES_TIP = "<c:FF8411>KILLER CAMERA/NULL DRONES</c>Drones with proximity weapons and a vision range no longer pause before trying to attack. Only affects drones that are given a proximity weapon above.",
 		KILLER_PULSE_DRONES = "KILLER PULSE DRONES",

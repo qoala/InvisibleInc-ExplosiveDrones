@@ -73,7 +73,7 @@ local qed_dischargedrone = util.extend( DEFAULT_BUFF )
 			return
 		end
 		local player = userUnit:getPlayerOwner()
-		if not userUnit:isValid() or userUnit:isDown() or not player:isNPC() then
+		if not userUnit:isValid() or userUnit:isDown() or (not player:isNPC() and not sim:getParams().difficultyOptions.qed_explosive_armed_when_hacked) then
 			return
 		end
 		if not evData.unit:isValid() or evData.unit:isDown() then

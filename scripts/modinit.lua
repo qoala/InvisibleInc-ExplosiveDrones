@@ -84,6 +84,7 @@ local function init( modApi )
 		}
 	})
 
+	modApi:addGenerationOption("armed_when_hacked", STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.ARMED_WHEN_HACKED,  STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.ARMED_WHEN_HACKED_TIP, {noUpdate=true})
 	modApi:addGenerationOption("killer_visual_drones", STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.KILLER_CAMERA_DRONES,  STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.KILLER_CAMERA_DRONES_TIP, {noUpdate=true, enabled=false})
 	modApi:addGenerationOption("killer_pulse_drones", STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.KILLER_PULSE_DRONES,  STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.KILLER_PULSE_DRONES_TIP, {noUpdate=true, enabled=false})
 
@@ -130,6 +131,11 @@ local function load( modApi, options, params )
 			params.qed_killer_pulse_drones = true
 		else
 			params.qed_killer_pulse_drones = false
+		end
+		if not options["armed_when_hacked"] or options["armed_when_hacked"].enabled then
+			params.qed_explosive_armed_when_hacked = true
+		else
+			params.qed_explosive_armed_when_hacked = false
 		end
 
 		local simdefs_patcher = include( scriptPath .. "/simdefs_patcher" )

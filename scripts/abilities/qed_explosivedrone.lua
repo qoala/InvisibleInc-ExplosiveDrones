@@ -33,7 +33,7 @@ local function doExplode( sim, userUnit, target )
 	local x0,y0 = userUnit:getLocation()
 	sim:dispatchEvent( simdefs.EV_FLASH_VIZ, {x = x0, y = y0, units = nil, range = math.floor(VIZ_RANGE) } )
 	local soundRange = { path = nil, range = SOUND_RANGE }
-	sim:emitSound( soundRange, x0, y0, target )
+	sim:emitSound( soundRange, x0, y0, nil )
 
 	-- Damage
 	local dmgt =
@@ -69,7 +69,7 @@ local qed_explosivedrone = util.extend( DEFAULT_BUFF )
 			return
 		end
 		local player = userUnit:getPlayerOwner()
-		if not userUnit:isValid() or userUnit:isDown() or not player:isNPC() then
+		if not userUnit:isValid() or userUnit:isDown() or (not player:isNPC() and not sim:getParams().difficultyOptions.qed_explosive_armed_when_hacked) then
 			return
 		end
 		if not evData.unit:isValid() or evData.unit:isDown() then
