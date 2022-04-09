@@ -55,7 +55,7 @@ function simengine:scanCell( unit, cell, ignoreDisguise, scanGrenade )
 	local player = unit:getPlayerOwner()
 	if unit:getTraits().qedScanMissile and player and player:isNPC() then
 		for i, cellUnit in ipairs( cell.units ) do
-			if simquery.isEnemyAgent( player, cellUnit, ignoreDisguise ) then
+			if simquery.isEnemyAgent( player, cellUnit, ignoreDisguise ) and not cellUnit:hasBeenInvestigated() then
 				handleScannedTarget( self, unit, cell, cellUnit )
 				return
 			end
