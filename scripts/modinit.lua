@@ -84,7 +84,7 @@ local function init( modApi )
 		}
 	})
 
-	modApi:addGenerationOption("armed_when_hacked", STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.ARMED_WHEN_HACKED,  STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.ARMED_WHEN_HACKED_TIP, {noUpdate=true})
+	-- modApi:addGenerationOption("armed_when_hacked", STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.ARMED_WHEN_HACKED,  STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.ARMED_WHEN_HACKED_TIP, {noUpdate=true, enabled=false})
 	modApi:addGenerationOption("killer_visual_drones", STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.KILLER_CAMERA_DRONES,  STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.KILLER_CAMERA_DRONES_TIP, {noUpdate=true, enabled=false})
 	modApi:addGenerationOption("killer_pulse_drones", STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.KILLER_PULSE_DRONES,  STRINGS.QED_EXPLOSIVEDRONES.OPTIONS.KILLER_PULSE_DRONES_TIP, {noUpdate=true, enabled=false})
 
