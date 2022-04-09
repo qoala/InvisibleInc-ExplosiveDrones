@@ -137,37 +137,34 @@ local function load( modApi, options, params )
 		else
 			params.qed_explosive_armed_when_hacked = false
 		end
+	end
 
+	-- Update spawn tables, if requested. (UNCHANGED was handled by unload, above)
+	if options["camera_spawns"] and options["camera_spawns"].value ~= "UNCHANGED" then
 		local simdefs_patcher = include( scriptPath .. "/simdefs_patcher" )
-		if options["camera_spawns"] and options["camera_spawns"].value ~= "UNCHANGED" then
-			simdefs_patcher.modifyAllSpawnTables( options["camera_spawns"].value )
-		else
-			simdefs_patcher.resetAllSpawnTables()
-		end
+		simdefs_patcher.modifyAllSpawnTables( options["camera_spawns"].value )
 	end
 end
 
 local function lateLoad( modApi, options, params )
 	local scriptPath = modApi:getScriptPath()
 
-	if params then
-		-- Patch guarddefs during lateload, after AGP has potentially saved and restored them.
-		local guarddefs_patcher = include( scriptPath .. "/guarddefs_patcher" )
-		if options["arm_camera"] and options["arm_camera"].value ~= 0 then
-			guarddefs_patcher.armCameraDrones( options["arm_camera"].value )
-		end
-		if options["arm_null"] and options["arm_null"].value ~= 0 then
-			guarddefs_patcher.armNullDrones( options["arm_null"].value )
-		end
-		if options["arm_pulse"] and options["arm_pulse"].value ~= 0 then
-			guarddefs_patcher.armPulseDrones( options["arm_pulse"].value )
-		end
-		if options["arm_refit"] and options["arm_refit"].value ~= 0 then
-			guarddefs_patcher.armRefitDrones( options["arm_refit"].value )
-		end
-		if options["arm_ce_crazy"] and options["arm_ce_crazy"].value ~= 0 then
-			guarddefs_patcher.armCeCrazyDrones( options["arm_ce_crazy"].value )
-		end
+	-- Patch guarddefs during lateload, after AGP has potentially saved and restored them.
+	local guarddefs_patcher = include( scriptPath .. "/guarddefs_patcher" )
+	if options["arm_camera"] and options["arm_camera"].value ~= 0 then
+		guarddefs_patcher.armCameraDrones( options["arm_camera"].value )
+	end
+	if options["arm_null"] and options["arm_null"].value ~= 0 then
+		guarddefs_patcher.armNullDrones( options["arm_null"].value )
+	end
+	if options["arm_pulse"] and options["arm_pulse"].value ~= 0 then
+		guarddefs_patcher.armPulseDrones( options["arm_pulse"].value )
+	end
+	if options["arm_refit"] and options["arm_refit"].value ~= 0 then
+		guarddefs_patcher.armRefitDrones( options["arm_refit"].value )
+	end
+	if options["arm_ce_crazy"] and options["arm_ce_crazy"].value ~= 0 then
+		guarddefs_patcher.armCeCrazyDrones( options["arm_ce_crazy"].value )
 	end
 end
 
