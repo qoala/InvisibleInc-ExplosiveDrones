@@ -24,6 +24,8 @@ local function armDrone( droneDef, armamentType )
 	else
 		table.insert( droneDef.abilities, "qed_explosivedrone" )
 		droneDef.traits.qedMissileRespawn = true
+		droneDef.traits.qedOldCleanup = droneDef.traits.cleanup
+		droneDef.traits.cleanup = false
 	end
 	droneDef.brain = "qedMissileBrain"
 	droneDef.traits.qedVisualMissile = true
@@ -39,6 +41,10 @@ local function disarmDrone( droneDef )
 	droneDef.traits.qedMissile = nil
 	droneDef.traits.qedMissileRespawn = nil
 	droneDef.traits.pacifist = true
+	if droneDef.traits.qedOldCleanup then
+		droneDef.traits.cleanup = droneDef.traits.qedOldCleanup
+		droneDef.traits.qedOldCleanup = nil
+	end
 end
 
 -- Patchers for each drone definition.
