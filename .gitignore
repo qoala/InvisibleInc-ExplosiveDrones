@@ -1,10 +1,14 @@
 # Files mentioned in this list are not getting committed!
 # The * means "wildcard" and can be any number of any letters.
 
+makeconfig.mk
+out/*
+
 # Invisible, Inc. specific
 int/*
 anim.kwad
 gui.kwad
+images.kwad
 sound.kwad
 scripts.zip
 
