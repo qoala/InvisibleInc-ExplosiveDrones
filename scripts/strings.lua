@@ -41,6 +41,8 @@ local DLC_STRINGS =
 
 		ARMED_WHEN_HACKED = "ARMED WHEN HACKED",
 		ARMED_WHEN_HACKED_TIP = "<c:FF8411>ARMED WHEN HACKED</c>\nWhen enabled, drones armed with proximity weapons retain these weapons while hacked. While hacked, they trigger on guards and non-hacked drones. The detonation is automatic, like K&O turrets.",
+		HACK_TIME = "REDUCED CONTROL TIME",
+		HACK_TIME_TIP = "<c:FF8411>REDUCED CONTROL TIME</c>\nWhen enabled, drones armed with proximity weapons are only controllable for 1 turn.",
 		KILLER_CAMERA_DRONES = "KILLER CAMERA/NULL DRONES",
 		KILLER_CAMERA_DRONES_TIP = "<c:FF8411>KILLER CAMERA/NULL DRONES</c>Drones with proximity weapons and a vision range no longer pause before trying to attack. Only affects drones that are given a proximity weapon above.",
 		KILLER_PULSE_DRONES = "KILLER PULSE DRONES",

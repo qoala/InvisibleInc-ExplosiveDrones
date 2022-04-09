@@ -14,7 +14,7 @@ end
 
 -- General changes applicable to all patchable drones.
 
-local function armDrone( droneDef, armamentType )
+local function armDrone( droneDef, armamentType, patchOpts )
 	droneDef.abilities._OVERRIDE = nil  -- DEBUG views fail with mixed key and array indices
 	-- 0: unarmed, 1: explosive, 2: discharge
 	if armamentType == 2 then
@@ -31,6 +31,11 @@ local function armDrone( droneDef, armamentType )
 	droneDef.traits.qedVisualMissile = true
 	droneDef.traits.qedMissile = true
 	droneDef.traits.pacifist = nil
+
+	if patchOpts and patchOpts.reduceControlTime then
+		droneDef.traits.qedOldControlTimerMax = droneDef.traits.controlTimerMax
+		droneDef.traits.controlTimerMax = 1
+	end
 end
 
 local function disarmDrone( droneDef )
@@ -45,22 +50,26 @@ local function disarmDrone( droneDef )
 		droneDef.traits.cleanup = droneDef.traits.qedOldCleanup
 		droneDef.traits.qedOldCleanup = nil
 	end
+	if droneDef.traits.qedOldControlTimerMax then
+		droneDef.traits.controlTimerMax = droneDef.traits.qedOldControlTimerMax
+		droneDef.traits.qedOldControlTimerMax = nil
+	end
 end
 
 -- Patchers for each drone definition.
 
-function _M.armCameraDrones( armamentType )
-	armDrone( guarddefs.camera_drone, armamentType )
+function _M.armCameraDrones( armamentType, patchOpts )
+	armDrone( guarddefs.camera_drone, armamentType, patchOpts )
 end
 
 function _M.disarmCameraDrones()
 	disarmDrone( guarddefs.camera_drone )
 end
 
-function _M.armNullDrones( armamentType )
-	armDrone( guarddefs.null_drone, armamentType )
+function _M.armNullDrones( armamentType, patchOpts )
+	armDrone( guarddefs.null_drone, armamentType, patchOpts )
 	if guarddefs.null_drone_LV2 then
-		armDrone( guarddefs.null_drone_LV2, armamentType )
+		armDrone( guarddefs.null_drone_LV2, armamentType, patchOpts )
 	end
 end
 
@@ -71,9 +80,9 @@ function _M.disarmNullDrones()
 	end
 end
 
-function _M.armPulseDrones( armamentType )
+function _M.armPulseDrones( armamentType, patchOpts )
 	if guarddefs.pulse_drone then
-		armDrone( guarddefs.pulse_drone, armamentType )
+		armDrone( guarddefs.pulse_drone, armamentType, patchOpts )
 		-- Missile AI that targets via pulse scans, not sight
 		guarddefs.pulse_drone.traits.qedVisualMissile = nil
 		guarddefs.pulse_drone.traits.qedScanMissile = true
@@ -87,12 +96,17 @@ function _M.disarmPulseDrones()
 	end
 end
 
-function _M.armRefitDrones( armamentType )
+function _M.armRefitDrones( armamentType, patchOpts )
 	if guarddefs.refit_drone then
-		armDrone( guarddefs.refit_drone, armamentType )
-		if guarddefs.refit_drone.traits.qedMissileRespawn then
-			-- Respawn normal camera drones instead. The valuable data just exploded.
-			guarddefs.refit_drone.traits.qedMissileRespawn = 'camera_drone'
+		armDrone( guarddefs.refit_drone, armamentType, patchOpts )
+		local droneDef = guarddefs.refit_drone
+		-- Respawn normal camera drones instead. The valuable data just exploded.
+		if droneDef.traits.qedMissileRespawn then
+			droneDef.traits.qedMissileRespawn = 'camera_drone'
+		end
+		-- Keep these controllable for longer
+		if droneDef.traits.qedOldControlTimerMax then
+			droneDef.traits.controlTimerMax = droneDef.traits.qedOldControlTimerMax
 		end
 	end
 end
@@ -103,9 +117,9 @@ function _M.disarmRefitDrones()
 	end
 end
 
-function _M.armCeCrazyDrones( armamentType )
+function _M.armCeCrazyDrones( armamentType, patchOpts )
 	if guarddefs.ce_crazy_drone then
-		armDrone( guarddefs.ce_crazy_drone, armamentType )
+		armDrone( guarddefs.ce_crazy_drone, armamentType, patchOpts )
 	end
 end
 
