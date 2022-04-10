@@ -42,7 +42,13 @@ local function doExplode( sim, userUnit, target )
 		ko = false,
 	}
 	sim:hitUnit( userUnit, target, dmgt )
+
+	local oldCleanup = userUnit:getTraits().cleanup
+	userUnit:getTraits().cleanup = false  -- No penalty if this is lethal
 	userUnit:killUnit(sim)
+	if userUnit and userUnit:isValid() then
+		userUnit:getTraits().cleanup = oldCleanup
+	end
 
 	sim:startTrackerQueue( false )
 	sim:processDaemonQueue()

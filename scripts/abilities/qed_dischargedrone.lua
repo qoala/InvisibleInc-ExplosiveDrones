@@ -49,7 +49,14 @@ local function doExplode( sim, userUnit, target )
 	if (userUnit:getPlayerOwner():isPC()) then
 		userUnit:loseControl( sim )
 	else
+		local oldCleanup = userUnit:getTraits().cleanup
+		userUnit:getTraits().cleanup = false  -- No penalty if this is lethal
+
 		userUnit:processEMP( SELF_KO_DAMAGE, true )
+
+		if userUnit and userUnit:isValid() then
+			userUnit:getTraits().cleanup = oldCleanup
+		end
 	end
 
 	sim:startTrackerQueue( false )
