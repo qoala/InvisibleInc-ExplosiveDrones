@@ -133,7 +133,7 @@ local function load( modApi, options, params )
 		else
 			params.qed_killer_pulse_drones = false
 		end
-		if not options["armed_when_hacked"] or options["armed_when_hacked"].enabled then
+		if options["armed_when_hacked"] and options["armed_when_hacked"].enabled then
 			params.qed_explosive_armed_when_hacked = true
 		else
 			params.qed_explosive_armed_when_hacked = false
