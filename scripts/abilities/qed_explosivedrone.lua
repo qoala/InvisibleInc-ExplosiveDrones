@@ -103,8 +103,11 @@ local qed_explosivedrone = util.extend( DEFAULT_BUFF )
 	end,
 
 	qedCheckProximityTrigger = function( self, sim, userUnit, cell )
+		if not cell or not userUnit:isValid() or userUnit:isDown() then
+			return
+		end
 		local player = userUnit:getPlayerOwner()
-		if not userUnit:isValid() or userUnit:isDown() or (not player:isNPC() and not sim:getParams().difficultyOptions.qed_explosive_armed_when_hacked) then
+		if not player:isNPC() and not sim:getParams().difficultyOptions.qed_explosive_armed_when_hacked then
 			return
 		end
 		for _, cellUnit in ipairs( cell.units ) do
