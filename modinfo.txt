@@ -1,3 +1,4 @@
 name = Explosive Drones
 author = qoalabear
-version = 1.1.0
+version = 1.1.1
+workshop = 2206567856
